@@ -1,37 +1,43 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
-var length = 128;
-var lowerCase = "abcdefghijklmnopqrstuvwxyz";
-var uperCase = lowerCase.toUpperCase();
-var numeric = "0123456789";
-var specialCharacter = true;
-var options = ["Y", "N"];
 
 
-function generatePassword(){
-  var userInput = prompt("Enter 'Y' for Yes, and 'N' for No");
-  if (!userInput){
-    return;
-  }
-  userInput = userInput.toUpperCase();
-
-}
+ 
+// Get references to the #generate element
+var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
 function writePassword() {
-
-  var password = generatePassword();
+  var length = Number(prompt("Choose a length of at least 8 characters and no more than 128 characters"))
+  var charType = prompt("What character types should we include? 'uppercase, lowercase, numbers, symbols' to include. ")
+  
   var passwordText = document.querySelector("#password");
 
-  passwordText.value = password;
+  function password(){
+      var charGen ={
+        lowerCase: 'abcdefghijklmnopqrstuvwxyz',
+        upperCase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        numeric: '0123456789',
+        specialCharacter:'!@#$%^&*()_+~`|}{[]:;?/-=',
+      };
+      var charTypes = charType.toLowerCase().split(', ');
 
+      var charSet = "";
+      for(var i = 0; i < charTypes.length; i++){
+        charSet += charGen[charTypes[i]];
+      };
+        
+      var retVal = "";
+      for (var i = 0; i < length; i++) {
+        retVal += charSet.charAt(Math.floor(Math.random() * charSet.length));
+      }
+    return retVal;
+  }
+  passwordText.value = password();
 }
-
-//function testing(){
- // var userInput = prompt("Enter 'Y' for Yes, and 'N' for No");
-//}
-
-
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-writePassword();
+
+
+
+
